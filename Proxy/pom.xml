@@ -3,7 +3,7 @@
   <groupId>Proxy</groupId>
   <artifactId>Proxy</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <description>Proxy的第一次操作</description>
+  <description>   Proxy的第一次操作</description>
   
   	<dependencies>
 		<dependency>
