@@ -16,6 +16,12 @@ import javax.tools.ToolProvider;
 import tank.Moveable;
 import tank.Tank;
 
+/**
+ * 这个代理类实现了你调用这个方法它就给你生成一个对象返回，里面的方法也都动态生成
+ * 接下来需要 解决里面的细节
+ * @author LeePui
+ *
+ */
 public class Proxy {
 	
 	public static Object getInstance(Class cla) throws Exception{
