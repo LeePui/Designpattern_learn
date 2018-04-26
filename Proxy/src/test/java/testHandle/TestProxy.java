@@ -15,6 +15,7 @@ public class TestProxy {
 		TimeHandle timeHandle = new TimeHandle(t);
 		Moveable m = (Moveable)Proxy.getInstance(Moveable.class, timeHandle);
 		m.move();
+		
 	}
 
 }
