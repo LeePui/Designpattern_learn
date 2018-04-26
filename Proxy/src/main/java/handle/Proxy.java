@@ -41,15 +41,19 @@ public class Proxy {
 //							" }";
 //		}
 		for (Method m : methods) {
-			methodString += " @Override" + rt + 
-							" public void " + m.getName() + "(){" + rt + 		//这里暂时没有设定返回值，都默认是void
-							" h.invoke(this, " + m + ")" + rt + 
-							" }";
+			methodString += "	@Override" + rt + 
+							"	public void " + m.getName() + "(){" + rt + 		//这里暂时没有设定返回值，都默认是void
+							"		try{" + rt +
+							"			Method m = " + cla.getName() + ".class.getMethod(\""+ m.getName() +"\");" + rt +
+							"			h.invoke(this, m);" + rt +
+							"		}catch(Exception e){e.printStackTrace();}" + rt +
+							"	}";
 		}
 		
 		String s = "package tank2;\r\n" + 
 				"\r\n" + 
 				"import tank.Moveable;\r\n" + 
+				"import java.lang.reflect.Method;\r\n" + 
 				"\r\n" + 
 				"/**\r\n" + 
 				" * 该类想实现以下计算Tank的move方法使用的时间\r\n" + 
@@ -59,11 +63,10 @@ public class Proxy {
 				" */\r\n" + 
 				"public class TankTimeProxy implements "+cla.getName()+" {\r\n" + 
 				"\r\n" + 
-				"	public Moveable t;\r\n" + 
+				"   handle.InvocationHandle h;" + rt +
 				"	\r\n" + 
-				"	public TankTimeProxy(Moveable t) {\r\n" + 
-				"		super();\r\n" + 
-				"		this.t= t;\r\n" + 
+				"	public TankTimeProxy(handle.InvocationHandle h) {\r\n" + 
+				"		this.h= h;\r\n" + 
 				"	}\r\n" + 
 				"\r\n" + 
 				methodString + 
@@ -101,12 +104,13 @@ public class Proxy {
 		//classloader类加载不了，使用下面这个类
 		URLClassLoader ul = new URLClassLoader(urls);
 		Class c = ul.loadClass("tank2.TankTimeProxy");
-		Constructor ctr = c.getConstructor(Moveable.class);
 		
-		Object o = ctr.newInstance(new Tank());
+		/**
+		 * 下面这两句十分难理解
+		 */
+		Constructor ctr = c.getConstructor(InvocationHandle.class);
+		Object o = ctr.newInstance(h);
 		return o;
-//		return ctr.newInstance(new Tank());
-//		return null;
 	}
 	
 
